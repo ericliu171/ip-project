@@ -1,6 +1,6 @@
 // dependencies / things imported
 import { LitElement, html, css } from 'lit';
-import { UserIP } from './UserIP.js';
+import { UserIP } from './UserIP.js'; 
 
 export class LocationFromIP extends LitElement {
   static get tag() {
@@ -8,7 +8,7 @@ export class LocationFromIP extends LitElement {
   }
 
   constructor() {
-    super();
+    super(); //not sure what this does
     this.UserIpInstance = new UserIP();
     this.locationEndpoint = 'https://freegeoip.app/json/';
     this.long = 10.305385;
@@ -16,11 +16,14 @@ export class LocationFromIP extends LitElement {
   }
 
   static get properties() {
-    return {};
+    return {
+      long: {type: Float, reflect: true}, 
+      lat: {type: Float, reflect: true},
+    };
   }
 
   firstUpdated(changedProperties) {
-    if (super.firstUpdated) {
+    if (super.firstUpdated) { // still not sure what "super" does
       super.firstUpdated(changedProperties);
     }
     this.getGEOIPData();
@@ -38,6 +41,8 @@ export class LocationFromIP extends LitElement {
       })
       .then(data => {
         console.log(data);
+        this.long = data.long,
+        this.lat= data.lat;
         return data;
       });
   }
@@ -59,7 +64,7 @@ export class LocationFromIP extends LitElement {
   render() {
     // this function runs every time a properties() declared variable changes
     // this means you can make new variables and then bind them this way if you like
-    const url = `https://maps.google.com/maps?q=${this.long},${this.lat}&t=&z=15&ie=UTF8&iwloc=&output=embed`;
+    const url = `https://maps.google.com/maps?q=${data.long},${data.lat}&t=&z=15&ie=UTF8&iwloc=&output=embed`;
     return html`<iframe title="Where you are" src="${url}"></iframe> `;
   }
 }
