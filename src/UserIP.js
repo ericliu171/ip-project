@@ -22,13 +22,14 @@ export class UserIP extends LitElement {
     // Java or other Object Oriented Programming Language
     // so for this one, we're storing a reference to the API endpoint
     // so that if it ever changed it would be easier to update
-    this.ipLookUp = 'https://ip-fast.com/api/ip/?format=json&location=False';
+    this.ipLookUp = 'https://ip-fast.com/api/ip/?format=json&location=True';
   }
 
   // properties that you wish to use as data in HTML, CSS, and the updated life-cycle
   static get properties() {
     return {
       ip: { type: String, reflect: true },
+      location: {type: String, reflect: true},
     };
   }
 
@@ -97,8 +98,9 @@ export class UserIP extends LitElement {
         }
         return false;
       })
-      .then(data => {
+      .then(data => { //not completly sure what this does, I think it simply marks the data
         this.ip = data.ip;
+        this.location = data.location;
         return data;
       });
   }
@@ -135,10 +137,11 @@ export class UserIP extends LitElement {
   }
 
   // this serves very little purpose but at least we're rendering the info
-  render() {
+  render() { //was a bit confused what to do here, so I kind of guessed, but this source helped me out: https://www.w3schools.com/tags/tag_li.asp
     return html` <ul>
-      <li><strong class="ipaddress">IP address:</strong> ${this.ip}</li>
-      <li></li>
+      <li><strong class="ipaddress">IP address:</strong> ${this.ip}</li> 
+      <li>${"--"}</li> 
+      <li>${this.location}</li>
     </ul>`;
   }
 }
